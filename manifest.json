@@ -1,0 +1,32 @@
+{
+  "name": "PWA Elétrico Profissional",
+  "short_name": "PWA Elétrico",
+  "description": "Aplicativo profissional para cálculos elétricos, tabelas de referência e dimensionamento",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#1976d2",
+  "theme_color": "#1976d2",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "productivity", "education"],
+  "screenshots": [
+    {
+      "src": "screenshot1.png",
+      "type": "image/png",
+      "sizes": "540x720"
+    }
+  ]
+}
