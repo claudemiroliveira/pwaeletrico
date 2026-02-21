@@ -12,7 +12,80 @@
     <!-- jsPDF Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <style>
+    <style>/* ===== LAYOUT LATERAL ===== */
+
+.layout{
+    display:flex;
+    min-height:100vh;
+}
+
+/* MENU ESQUERDO */
+.sidebar{
+    width:260px;
+    background:linear-gradient(180deg,#1976d2,#115293);
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    position:sticky;
+    top:60px;
+    height:calc(100vh - 60px);
+}
+
+.sidebar .nav-btn{
+    background:transparent;
+    border:none;
+    color:white;
+    text-align:left;
+    padding:12px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+    border-left:4px solid transparent;
+}
+
+.sidebar .nav-btn:hover{
+    background:rgba(255,255,255,0.1);
+}
+
+.sidebar .nav-btn.active{
+    background:white;
+    color:#1976d2;
+    border-left:4px solid #ffc107;
+}
+
+/* CONTEÚDO */
+main{
+    flex:1;
+    margin:0;
+    padding:2rem;
+
+    /* fundo do PWA */
+    background-image:url("ícone-512.png");
+    background-repeat:no-repeat;
+    background-position:center right;
+    background-size:350px;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+
+    .layout{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+        height:auto;
+        flex-direction:row;
+        overflow-x:auto;
+    }
+
+    .sidebar .nav-btn{
+        white-space:nowrap;
+    }
+}
+        
         * {
             margin: 0;
             padding: 0;
@@ -369,19 +442,6 @@
         📱 Instale este app para acesso rápido offline!
         <button class="btn btn-secondary" id="installBtn" style="margin-left: 1rem;">Instalar</button>
     </div>
-
-    <nav>
-        <div class="nav-buttons">
-            <button class="nav-btn active" data-section="ohm">Lei de Ohm</button>
-            <button class="nav-btn" data-section="trifasica">Potência Trifásica</button>
-            <button class="nav-btn" data-section="queda">Queda de Tensão</button>
-            <button class="nav-btn" data-section="disjuntor">Disjuntores</button>
-            <button class="nav-btn" data-section="quadro">Montagem de Quadro</button>
-            <button class="nav-btn" data-section="bitolas">Tabelas</button>
-            <button class="nav-btn" data-section="conversao">Conversões</button>
-            <button class="nav-btn" data-section="consumo">Consumo</button>
-        </div>
-    </nav>
 
     <main>
         <!-- Seção Lei de Ohm -->
@@ -823,7 +883,7 @@
             </div>
         </section>
     </main>
-
+</div>
     <script src="app_updated.js"></script>
 </body>
 </html>
