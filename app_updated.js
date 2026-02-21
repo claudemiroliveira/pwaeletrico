@@ -73,19 +73,7 @@ function calcularOhm() {
     // Calculate based on what's provided
     if (v && i) {
         const calcR = v / i;
-    // =============================
-// NAVEGAÇÃO DAS SEÇÕES (NOVO MENU)
-// =============================
-
-
-
-            // mostra seção selecionada
-            const activeSection = document.getElementById(target);
-            if(activeSection){
-                activeSection.style.display = "block";
-            }
-
-        });
+    
 
     });
 
