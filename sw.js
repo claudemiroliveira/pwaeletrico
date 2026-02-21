@@ -1,4 +1,4 @@
-const CACHE_NAME = "pwa-eletrico-v4";
+const CACHE_NAME = "pwa-eletrico-v8";
 
 const FILES_TO_CACHE = [
   "/pwaeletrico/",
