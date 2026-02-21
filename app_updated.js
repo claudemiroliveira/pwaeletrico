@@ -1,3 +1,36 @@
+// ================= MENU LATERAL =================
+document.addEventListener("DOMContentLoaded", function () {
+
+    const botoes = document.querySelectorAll(".nav-btn");
+    const secoes = document.querySelectorAll(".section");
+
+    botoes.forEach(function(btn){
+
+        btn.addEventListener("click", function(){
+
+            const alvo = this.dataset.section;
+
+            // esconder tudo
+            secoes.forEach(function(sec){
+                sec.classList.remove("active");
+            });
+
+            // remover ativo dos botões
+            botoes.forEach(function(b){
+                b.classList.remove("active");
+            });
+
+            // mostrar seção
+            const secao = document.getElementById(alvo);
+            if(secao) secao.classList.add("active");
+
+            this.classList.add("active");
+
+        });
+
+    });
+
+});
 alert("JS CARREGOU");
 // =============================
 // MENU LATERAL - NAVEGAÇÃO
