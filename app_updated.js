@@ -756,7 +756,52 @@ function exportarSecaoConsumo(doc, y, pageWidth) {
         doc.text('Nenhum cálculo de consumo realizado.', 15, y);
     }
 }
+// gerar orçamento 
+function gerarOrcamento() {
 
+  let cliente = document.getElementById("cliente").value;
+  let servico = document.getElementById("servico").value;
+  let potencia = parseFloat(document.getElementById("potencia").value);
+  let tensao = parseFloat(document.getElementById("tensao").value);
+  let distancia = parseFloat(document.getElementById("distancia").value);
+
+  if(!cliente || !servico || !potencia || !distancia){
+    alert("Preencha todos os campos!");
+    return;
+  }
+
+  let corrente = potencia / tensao;
+
+  let bitola = "2.5 mm²";
+  let disjuntor = "20A";
+
+  if(corrente > 20){
+    bitola = "4 mm²";
+    disjuntor = "32A";
+  }
+
+  if(corrente > 32){
+    bitola = "6 mm²";
+    disjuntor = "40A";
+  }
+
+  let cabo = distancia * 1.2;
+  let maoObra = 150 + (corrente * 5);
+
+  document.getElementById("resultadoOrcamento").innerHTML =
+  `
+  Corrente: ${corrente.toFixed(2)} A<br>
+  Bitola: ${bitola}<br>
+  Disjuntor: ${disjuntor}<br>
+  Cabo necessário: ${cabo.toFixed(1)} m<br><br>
+  <b>Mão de obra sugerida: R$ ${maoObra.toFixed(2)}</b>
+  `;
+
+  window.orcamentoAtual = {
+    cliente, servico, corrente,
+    bitola, disjuntor, cabo, maoObra
+  };
+}
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     atualizarListaCircuitos();
