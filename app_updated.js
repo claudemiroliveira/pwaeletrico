@@ -18,47 +18,26 @@ installBtn.addEventListener('click', async () => {
     installPrompt.classList.remove('show');
 });
 
-//service-worker.js corrigido
+// Service Worker Registration
 if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('Service Worker registrado', reg))
+        .catch(err => console.log('Erro no Service Worker', err));
+}
 
-    window.addEventListener('load', () => {
-
-        navigator.serviceWorker.register('./service-worker.js')
-            .then(reg => {
-                console.log('✅ Service Worker registrado:', reg.scope);
-            })
-            .catch(err => {
-                console.log('❌ Erro no Service Worker:', err);
-            });
-//Navegação 
-    document.addEventListener('DOMContentLoaded', () => {
-
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-
-        btn.addEventListener('click', () => {
-
-            const section = btn.dataset.section;
-
-            // botão ativo
-            document.querySelectorAll('.nav-btn')
-                .forEach(b => b.classList.remove('active'));
-
-            btn.classList.add('active');
-
-            // seção ativa
-            document.querySelectorAll('.section')
-                .forEach(s => s.classList.remove('active'));
-
-            const target = document.getElementById(section);
-
-            if (target) {
-                target.classList.add('active');
-            }
-
-        });
-
+// Navigation
+document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const section = btn.dataset.section;
+        
+        // Update active button
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Update active section
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(section).classList.add('active');
     });
-
 });
 
 // Lei de Ohm Calculator
