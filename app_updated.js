@@ -18,12 +18,20 @@ installBtn.addEventListener('click', async () => {
     installPrompt.classList.remove('show');
 });
 
-// Service Worker Registration
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-        .then(reg => console.log('Service Worker registrado', reg))
-        .catch(err => console.log('Erro no Service Worker', err));
-}
+
+    window.addEventListener('load', () => {
+
+        navigator.serviceWorker.register('./service-worker.js')
+            .then(reg => {
+                console.log('✅ Service Worker registrado:', reg.scope);
+            })
+            .catch(err => {
+                console.log('❌ Erro no Service Worker:', err);
+            });
+
+    });
+
 
 // Navigation
 document.querySelectorAll('.nav-btn').forEach(btn => {
