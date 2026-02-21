@@ -756,6 +756,11 @@ function exportarSecaoConsumo(doc, y, pageWidth) {
         doc.text('Nenhum cálculo de consumo realizado.', 15, y);
     }
 }
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    atualizarListaCircuitos();
+});
 // gerar orçamento 
 function gerarOrcamento() {
 
@@ -802,7 +807,3 @@ function gerarOrcamento() {
     bitola, disjuntor, cabo, maoObra
   };
 }
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    atualizarListaCircuitos();
-});
