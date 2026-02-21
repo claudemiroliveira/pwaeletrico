@@ -824,6 +824,51 @@
                 <div id="cons_result"></div>
             </div>
         </section>
+        
+
+<section id="orcamento" class="section">
+  <div class="card">
+    <h2>📄 Orçamento Inteligente</h2>
+
+    <div class="form-group">
+      <label>Nome do Cliente:</label>
+      <input type="text" id="cliente">
+    </div>
+
+    <div class="form-group">
+      <label>Serviço:</label>
+      <input type="text" id="servico">
+    </div>
+
+    <div class="form-group">
+      <label>Potência (W):</label>
+      <input type="number" id="potencia">
+    </div>
+
+    <div class="form-group">
+      <label>Tensão:</label>
+      <select id="tensao">
+        <option value="127">127V</option>
+        <option value="220">220V</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Distância (metros):</label>
+      <input type="number" id="distancia">
+    </div>
+
+    <button class="btn" onclick="gerarOrcamento()">
+      Calcular Orçamento
+    </button>
+
+    <button class="btn export-btn no-print" onclick="gerarPDF()">
+      📄 Exportar PDF
+    </button>
+
+    <div id="resultadoOrcamento"></div>
+  </div>
+</section>  
     </main>
 
     <script src="app_updated.js"></script>
