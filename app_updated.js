@@ -1,3 +1,37 @@
+// =============================
+// MENU LATERAL - NAVEGAÇÃO
+// =============================
+document.addEventListener("DOMContentLoaded", () => {
+
+    const buttons = document.querySelectorAll(".nav-btn");
+    const sections = document.querySelectorAll(".section");
+
+    buttons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const target = button.dataset.section;
+
+            // remove ativo do menu
+            buttons.forEach(btn => btn.classList.remove("active"));
+            button.classList.add("active");
+
+            // esconder todas seções
+            sections.forEach(section => {
+                section.classList.remove("active");
+            });
+
+            // mostrar selecionada
+            document.getElementById(target).classList.add("active");
+
+        });
+
+    });
+
+});
+
+
+
 // PWA Installation
 let deferredPrompt;
 const installPrompt = document.getElementById('installPrompt');
@@ -59,34 +93,7 @@ function calcularOhm() {
         resultados.push(`Potência calculada: ${calcP.toFixed(2)} W`);
     }
     
-    if (v && r) {document.addEventListener("DOMContentLoaded", () => {
-
-    const buttons = document.querySelectorAll(".nav-btn");
-    const sections = document.querySelectorAll(".section");
-
-    buttons.forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const target = button.dataset.section;
-
-            // remove ativo
-            buttons.forEach(btn => btn.classList.remove("active"));
-            button.classList.add("active");
-
-            // esconder tudo
-            sections.forEach(section => {
-                section.classList.remove("active");
-            });
-
-            // mostrar selecionado
-            document.getElementById(target).classList.add("active");
-
-        });
-
-    });
-
-});
+    if (v && r) {
         const calcI = v / r;
         const calcP = (v * v) / r;
         resultados.push(`Corrente calculada: ${calcI.toFixed(2)} A`);
