@@ -5,7 +5,8 @@ const urlsToCache = [
   './app.js',
   './manifest.json',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  "html2pdf.bundle.min.js",
 ];
 
 // Instalação do Service Worker
