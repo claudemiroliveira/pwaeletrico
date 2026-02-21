@@ -25,20 +25,6 @@ if ('serviceWorker' in navigator) {
         .catch(err => console.log('Erro no Service Worker', err));
 }
 
-// Navigation
-document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const section = btn.dataset.section;
-        
-        // Update active button
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        // Update active section
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.getElementById(section).classList.add('active');
-    });
-});
 
 // Lei de Ohm Calculator
 function calcularOhm() {
@@ -52,7 +38,41 @@ function calcularOhm() {
     // Calculate based on what's provided
     if (v && i) {
         const calcR = v / i;
-        const calcP = v * i;
+    // =============================
+// NAVEGAÇÃO DAS SEÇÕES (NOVO MENU)
+// =============================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const buttons = document.querySelectorAll(".nav-btn");
+    const sections = document.querySelectorAll("section");
+
+    buttons.forEach(btn => {
+
+        btn.addEventListener("click", () => {
+
+            const target = btn.dataset.section;
+
+            // remove ativo dos botões
+            buttons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            // esconde todas as seções
+            sections.forEach(sec => {
+                sec.style.display = "none";
+            });
+
+            // mostra seção selecionada
+            const activeSection = document.getElementById(target);
+            if(activeSection){
+                activeSection.style.display = "block";
+            }
+
+        });
+
+    });
+
+});    const calcP = v * i;
         resultados.push(`Resistência calculada: ${calcR.toFixed(2)} Ω`);
         resultados.push(`Potência calculada: ${calcP.toFixed(2)} W`);
     }
