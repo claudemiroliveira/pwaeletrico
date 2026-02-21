@@ -636,7 +636,60 @@ async function exportarSecaoQuadro(doc, y, pageWidth, pageHeight) {
     
     // Cabeçalho da tabela
     const colWidths = [60, 30, 25, 25, 25];
-    const colX = [15, 75, 105, 130, 155];
+    const colX = // =============================
+// MENU LATERAL PWA ELÉTRICO
+// =============================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    console.log("✅ PWA iniciado");
+
+    const botoes = document.querySelectorAll(".nav-btn");
+    const secoes = document.querySelectorAll(".section");
+
+    function abrirSecao(id) {
+
+        // esconder todas
+        secoes.forEach(sec => {
+            sec.classList.remove("active");
+        });
+
+        // remover destaque dos botões
+        botoes.forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        // mostrar seção correta
+        const alvo = document.getElementById(id);
+
+        if (alvo) {
+            alvo.classList.add("active");
+            console.log("Abrindo seção:", id);
+        } else {
+            console.error("Seção não encontrada:", id);
+        }
+
+        // destacar botão clicado
+        const botaoAtivo = document.querySelector(`[data-section="${id}"]`);
+        if (botaoAtivo) botaoAtivo.classList.add("active");
+
+        // salvar última aba (PWA profissional)
+        localStorage.setItem("ultimaSecao", id);
+    }
+
+    // clique nos botões
+    botoes.forEach(botao => {
+        botao.addEventListener("click", () => {
+            const secao = botao.dataset.section;
+            abrirSecao(secao);
+        });
+    });
+
+    // abrir última aba usada
+    const ultima = localStorage.getItem("ultimaSecao") || "ohm";
+    abrirSecao(ultima);
+
+});[15, 75, 105, 130, 155];
     
     doc.setFillColor(240, 240, 240);
     doc.rect(15, y - 5, pageWidth - 30, 8, 'F');
