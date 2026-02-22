@@ -269,11 +269,18 @@
         }
 
         .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
+
+    display: flex;
+    justify-content: flex-start; /* ← força esquerda */
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+
+    flex-wrap: nowrap;     /* impede centralização */
+    overflow-x: auto;      /* scroll horizontal no celular */
+    padding-bottom: 4px;
+}
+        
 
         .tab {
             padding: 0.75rem 1.5rem;
