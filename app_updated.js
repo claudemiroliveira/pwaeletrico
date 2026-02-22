@@ -867,3 +867,59 @@ function gerarOrcamento() {
     bitola, disjuntor, cabo, maoObra
   };
 }
+// =============================
+// SISTEMA FREE 7 DIAS / PRO
+// =============================
+
+const DIAS_GRATIS = 7;
+
+function verificarPlano() {
+
+  let dataInstalacao = localStorage.getItem("dataInstalacao");
+
+  // primeira vez que abriu
+  if (!dataInstalacao) {
+    dataInstalacao = Date.now();
+    localStorage.setItem("dataInstalacao", dataInstalacao);
+  }
+
+  const agora = Date.now();
+  const diasUsados = Math.floor(
+    (agora - dataInstalacao) / (1000 * 60 * 60 * 24)
+  );
+
+  const status = document.getElementById("statusPlano");
+
+  // ===== FREE =====
+  if (diasUsados < DIAS_GRATIS) {
+
+    const diasRestantes = DIAS_GRATIS - diasUsados;
+
+    status.innerHTML =
+      `🟢 FREE — ${diasRestantes} dias restantes`;
+
+    window.usuarioPro = false;
+
+  } 
+  // ===== PRO BLOQUEADO =====
+  else {
+
+    status.innerHTML =
+      `🔒 Versão FREE expirada`;
+
+    window.usuarioPro = false;
+
+    bloquearFuncoesPro();
+  }
+}
+
+function bloquearFuncoesPro() {
+
+  alert("Seu período grátis terminou.\nAtive o PRO para continuar.");
+
+  // exemplo: bloquear exportar PDF
+  window.exportarPDF = function () {
+    alert("Função disponível apenas no PRO.");
+  };
+
+}
