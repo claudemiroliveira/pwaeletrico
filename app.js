@@ -76,14 +76,37 @@ function showScreen(screenId) {
 }
 
 // Navegação entre calculadoras
-function showCalc(calcId) {
-    const calcs = document.querySelectorAll('.calc-content');
-    calcs.forEach(calc => calc.style.display = 'none');
-    document.getElementById('calc' + calcId.charAt(0).toUpperCase() + calcId.slice(1)).style.display = 'block';
+//function showCalc(calcId) {
+//    const calcs = document.querySelectorAll('.calc-content');
+//    calcs.forEach(calc => calc.style.display = 'none');
+ //   document.getElementById('calc' + calcId.charAt(0).toUpperCase() + calcId.slice(1)).style.display = 'block';
     
-    const tabs = document.querySelectorAll('#calculadorasScreen .tab');
-    tabs.forEach(tab => tab.classList.remove('active'));
-    event.target.classList.add('active');
+ //   const tabs = document.querySelectorAll('#calculadorasScreen .tab');
+ //   tabs.forEach(tab => tab.classList.remove('active'));
+  //  event.target.classList.add('active');
+}
+
+// Navegação entre calculadoras (VERSÃO PROFISSIONAL)
+function showCalc(calcId, el) {
+
+    // esconder todas calculadoras
+    document.querySelectorAll('.calc-content')
+        .forEach(calc => calc.style.display = 'none');
+
+    // mostrar calculadora selecionada
+    document.getElementById(
+        'calc' + calcId.charAt(0).toUpperCase() + calcId.slice(1)
+    ).style.display = 'block';
+
+    // remover active das abas
+    document.querySelectorAll('#calculadorasScreen .tab')
+        .forEach(tab => tab.classList.remove('active'));
+
+    // ativar aba clicada
+    el.classList.add('active');
+
+    // mover indicador animado
+    moverIndicador(el);
 }
 
 // Navegação entre tabelas
@@ -688,5 +711,8 @@ window.addEventListener('load', () => {
     indicator.style.width = rect.width + "px";
     indicator.style.left = (rect.left - parentRect.left) + "px";
 }
-    
+ window.addEventListener("load", () => {
+    const activeTab = document.querySelector(".tab.active");
+    if (activeTab) moverIndicador(activeTab);
+});   
 });
