@@ -2,7 +2,7 @@ const CACHE_NAME = 'pwa-eletrico-v7';
 const urlsToCache = [
   './',
   './index.html',
-  //'./app.js',
+  './app.js',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'
