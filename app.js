@@ -86,27 +86,25 @@ function showScreen(screenId) {
   //  event.target.classList.add('active');
 }
 
-// Navegação entre calculadoras (VERSÃO PROFISSIONAL)
-function showCalc(calcId, el) {
+// Navegação entre calculadoras
+function showCalc(calcId, element) {
 
-    // esconder todas calculadoras
-    document.querySelectorAll('.calc-content')
-        .forEach(calc => calc.style.display = 'none');
+    // Esconde todas
+    const calcs = document.querySelectorAll('.calc-content');
+    calcs.forEach(calc => calc.style.display = 'none');
 
-    // mostrar calculadora selecionada
+    // Mostra a selecionada
     document.getElementById(
         'calc' + calcId.charAt(0).toUpperCase() + calcId.slice(1)
     ).style.display = 'block';
 
-    // remover active das abas
-    document.querySelectorAll('#calculadorasScreen .tab')
-        .forEach(tab => tab.classList.remove('active'));
+    // Remove active das abas
+    const tabs = document.querySelectorAll('#calculadorasScreen .tab');
+    tabs.forEach(tab => tab.classList.remove('active'));
 
-    // ativar aba clicada
-    el.classList.add('active');
-
-    // mover indicador animado
-    moverIndicador(el);
+    // Ativa a clicada
+    element.classList.add('active');
+}
 }
 
 // Navegação entre tabelas
