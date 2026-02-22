@@ -1,182 +1,373 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html>  <html lang="pt-BR">  
+<head>  
+    <div id="statusPlano" style="  
+position:fixed;  
+top:10px;  
+right:10px;  
+background:#222;  
+color:#fff;  
+padding:6px 12px;  
+border-radius:8px;  
+font-size:12px;  
+z-index:9999;">  
+Carregando...  
+    </div>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <meta name="description" content="PWA para cálculos elétricos profissionais">  
+    <meta name="theme-color" content="#1976d2">  
+    <title>PWA Elétrico - Cálculos e Tabelas</title>  
+    <link rel="manifest" href="manifest.json">  
+    <link rel="icons" type="image/png" href="icon-192.png">  
+    <link rel="apple-touch-icon" href="icon-192.png">  
+    <!-- jsPDF Library -->  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>  
+    <style>  
+        * {  
+            margin: 0;  
+            padding: 0;  
+            box-sizing: border-box;  
+        }  :root {  
+        --primary: #1976d2;  
+        --primary-dark: #115293;  
+        --secondary: #ffc107;  
+        --success: #4caf50;  
+        --danger: #f44336;  
+        --text: #333;  
+        --bg: #f5f5f5;  
+        --card-bg: #ffffff;  
+        --shadow: 0 2px 8px rgba(0,0,0,0.1);  
+    }  
 
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    body {  
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+        background: var(--bg);  
+        color: var(--text);  
+        line-height: 1.6;  
+    }  
 
-<meta name="description" content="PWA para cálculos elétricos profissionais">
-<meta name="theme-color" content="#1976d2">
-<meta name="mobile-web-app-capable" content="yes">
+    header {  
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);  
+        color: white;  
+        padding: 1rem;  
+        box-shadow: var(--shadow);  
+        position: sticky;  
+        top: 0;  
+        z-index: 100;  
+    }  
 
-<title>PWA Elétrico - Cálculos e Tabelas</title>
+    .header-content {  
+        max-width: 1200px;  
+        margin: 0 auto;  
+        display: flex;  
+        justify-content: space-between;  
+        align-items: center;  
+    }  
 
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
+    h1 {  
+        font-size: 1.5rem;  
+        display: flex;  
+        align-items: center;  
+        gap: 0.5rem;  
+    }  
 
-<!-- Bibliotecas -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    nav {  
+        background: white;  
+        box-shadow: var(--shadow);  
+        position: sticky;  
+        top: 60px;  
+        z-index: 99;  
+        overflow-x: auto;  
+    }  
 
-<style>
+    .nav-buttons {  
+        max-width: 1200px;  
+        margin: 0 auto;  
+        display: flex;  
+        gap: 0;  
+        padding: 0.5rem;  
+        flex-wrap: wrap;  
+    }  
 
-/* ===== RESET ===== */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+    .nav-btn {  
+        padding: 0.75rem 1.5rem;  
+        border: none;  
+        background: transparent;  
+        color: var(--text);  
+        cursor: pointer;  
+        font-size: 0.9rem;  
+        font-weight: 500;  
+        transition: all 0.3s;  
+        border-bottom: 3px solid transparent;  
+        white-space: nowrap;  
+    }  
 
-/* ===== VARIÁVEIS ===== */
-:root{
---primary:#1976d2;
---primary-dark:#115293;
---secondary:#ffc107;
---success:#4caf50;
---danger:#f44336;
---text:#333;
---bg:#f5f5f5;
---card-bg:#ffffff;
---shadow:0 2px 8px rgba(0,0,0,0.1);
-}
+    .nav-btn:hover {  
+        background: var(--bg);  
+    }  
 
-/* ===== BODY ===== */
-body{
-font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-background:var(--bg);
-color:var(--text);
-line-height:1.6;
-}
+    .nav-btn.active {  
+        color: var(--primary);  
+        border-bottom-color: var(--primary);  
+        background: var(--bg);  
+    }  
 
-/* ===== HEADER ===== */
-header{
-background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);
-color:#fff;
-padding:1rem;
-position:sticky;
-top:0;
-z-index:100;
-box-shadow:var(--shadow);
-}
+    main {  
+        max-width: 1200px;  
+        margin: 2rem auto;  
+        padding: 0 1rem;  
+    }  
 
-.header-content{
-max-width:1200px;
-margin:auto;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
+    .section {  
+        display: none;  
+        animation: fadeIn 0.3s;  
+    }  
 
-h1{
-font-size:1.5rem;
-}
+    .section.active {  
+        display: block;  
+    }  
 
-/* ===== NAV ===== */
-nav{
-background:#fff;
-position:sticky;
-top:60px;
-z-index:99;
-box-shadow:var(--shadow);
-overflow-x:auto;
-}
+    @keyframes fadeIn {  
+        from { opacity: 0; transform: translateY(10px); }  
+        to { opacity: 1; transform: translateY(0); }  
+    }  
 
-.nav-buttons{
-max-width:1200px;
-margin:auto;
-display:flex;
-padding:.5rem;
-}
+    .card {  
+        background: var(--card-bg);  
+        padding: 2rem;  
+        margin-bottom: 2rem;  
+        border-radius: 12px;  
+        box-shadow: var(--shadow);  
+    }  
 
-.nav-btn{
-padding:.75rem 1.5rem;
-border:none;
-background:transparent;
-cursor:pointer;
-border-bottom:3px solid transparent;
-white-space:nowrap;
-}
+    .card h2 {  
+        color: var(--primary);  
+        margin-bottom: 1rem;  
+        display: flex;  
+        align-items: center;  
+        gap: 0.5rem;  
+    }  
 
-.nav-btn.active{
-color:var(--primary);
-border-bottom-color:var(--primary);
-background:var(--bg);
-}
+    .formula-box {  
+        background: #e3f2fd;  
+        padding: 1rem;  
+        border-radius: 8px;  
+        margin: 1rem 0;  
+        border-left: 4px solid var(--primary);  
+    }  
 
-/* ===== MAIN ===== */
-main{
-max-width:1200px;
-margin:2rem auto;
-padding:0 1rem;
-}
+    .formula-box strong {  
+        color: var(--primary);  
+    }  
 
-.section{display:none;}
-.section.active{display:block;}
+    .info-box {  
+        background: #fff3e0;  
+        padding: 1rem;  
+        border-radius: 8px;  
+        margin: 1rem 0;  
+        border-left: 4px solid var(--secondary);  
+    }  
 
-.card{
-background:var(--card-bg);
-padding:2rem;
-margin-bottom:2rem;
-border-radius:12px;
-box-shadow:var(--shadow);
-}
+    .warning-box {  
+        background: #ffebee;  
+        padding: 1rem;  
+        border-radius: 8px;  
+        margin: 1rem 0;  
+        border-left: 4px solid var(--danger);  
+    }  
 
-/* ===== FORM ===== */
-.form-group{margin:1.2rem 0;}
+    .form-group {  
+        margin: 1.5rem 0;  
+    }  
 
-input,select{
-width:100%;
-padding:.7rem;
-border:2px solid #ddd;
-border-radius:8px;
-}
+    label {  
+        display: block;  
+        margin-bottom: 0.5rem;  
+        font-weight: 500;  
+        color: var(--text);  
+    }  
 
-button.btn{
-background:var(--primary);
-color:#fff;
-padding:.7rem 1.5rem;
-border:none;
-border-radius:8px;
-cursor:pointer;
-margin-top:.5rem;
-}
+    input, select {  
+        width: 100%;  
+        padding: 0.75rem;  
+        border: 2px solid #ddd;  
+        border-radius: 8px;  
+        font-size: 1rem;  
+        transition: border-color 0.3s;  
+    }  
 
-.export-btn{background:var(--danger);}
+    input:focus, select:focus {  
+        outline: none;  
+        border-color: var(--primary);  
+    }  
 
-/* ===== RESPONSIVO ===== */
-@media(max-width:768px){
-.card{padding:1rem;}
-h1{font-size:1.2rem;}
-}
+    button.btn {  
+        background: var(--primary);  
+        color: white;  
+        padding: 0.75rem 2rem;  
+        border: none;  
+        border-radius: 8px;  
+        font-size: 1rem;  
+        font-weight: 500;  
+        cursor: pointer;  
+        transition: all 0.3s;  
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);  
+    }  
 
-/* ===== PRINT ===== */
-@media print{
-header,nav,button,.no-print{display:none!important;}
-.card{box-shadow:none;border:1px solid #ddd;}
-}
+    button.btn:hover {  
+        background: var(--primary-dark);  
+        transform: translateY(-2px);  
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);  
+    }  
 
-</style>
-</head>
+    button.btn-secondary {  
+        background: var(--secondary);  
+        color: var(--text);  
+    }  
 
-<body>
+    button.btn-success {  
+        background: var(--success);  
+    }  
 
-<!-- STATUS PLANO -->
-<div id="statusPlano" style="
-position:fixed;
-top:10px;
-right:10px;
-background:#222;
-color:#fff;
-padding:6px 12px;
-border-radius:8px;
-font-size:12px;
-z-index:9999;">
-Carregando...
-</div>
+    button.btn-danger {  
+        background: var(--danger);  
+    }  
 
-<!-- BOTÃO TESTE PRO -->
-<button onclick="testeExpirarPlano()" style="
+    .result-box {  
+        background: #e8f5e9;  
+        padding: 1.5rem;  
+        border-radius: 8px;  
+        margin-top: 1.5rem;  
+        border-left: 4px solid var(--success);  
+    }  
+
+    .result-box h3 {  
+        color: var(--success);  
+        margin-bottom: 1rem;  
+    }  
+
+    .result-item {  
+        padding: 0.5rem 0;  
+        border-bottom: 1px solid #c8e6c9;  
+    }  
+
+    .result-item:last-child {  
+        border-bottom: none;  
+    }  
+
+    table {  
+        width: 100%;  
+        border-collapse: collapse;  
+        margin: 1rem 0;  
+        background: white;  
+        box-shadow: var(--shadow);  
+        border-radius: 8px;  
+        overflow: hidden;  
+    }  
+
+    thead {  
+        background: var(--primary);  
+        color: white;  
+    }  
+
+    th, td {  
+        padding: 1rem;  
+        text-align: left;  
+        border-bottom: 1px solid #ddd;  
+    }  
+
+    tbody tr:hover {  
+        background: var(--bg);  
+    }  
+
+    .install-prompt {  
+        background: var(--secondary);  
+        color: var(--text);  
+        padding: 1rem;  
+        text-align: center;  
+        display: none;  
+        border-radius: 8px;  
+        margin-bottom: 1rem;  
+    }  
+
+    .install-prompt.show {  
+        display: block;  
+    }  
+
+    /* Export Button Styles */  
+    .export-btn {  
+        background: var(--danger);  
+        margin-left: 1rem;  
+    }  
+
+    /* Circuit Builder Styles */  
+    .circuit-builder {  
+        margin-top: 1rem;  
+    }  
+
+    .circuit-item {  
+        background: #f9f9f9;  
+        padding: 1rem;  
+        margin: 0.5rem 0;  
+        border-radius: 8px;  
+        border-left: 4px solid var(--primary);  
+        display: flex;  
+        justify-content: space-between;  
+        align-items: center;  
+    }  
+
+    .circuit-controls {  
+        display: flex;  
+        gap: 0.5rem;  
+        flex-wrap: wrap;  
+        margin-top: 1rem;  
+    }  
+
+    .circuit-summary {  
+        background: #e3f2fd;  
+        padding: 1.5rem;  
+        border-radius: 8px;  
+        margin-top: 1rem;  
+    }  
+
+    @media (max-width: 768px) {  
+        .nav-buttons {  
+            overflow-x: auto;  
+            flex-wrap: nowrap;  
+        }  
+
+        .card {  
+            padding: 1rem;  
+        }  
+
+        h1 {  
+            font-size: 1.2rem;  
+        }  
+
+        table {  
+            font-size: 0.9rem;  
+        }  
+
+        th, td {  
+            padding: 0.5rem;  
+        }  
+    }  
+
+    @media print {  
+        header, nav, button, .no-print {  
+            display: none !important;  
+        }  
+          
+        .card {  
+            page-break-inside: avoid;  
+            box-shadow: none;  
+            border: 1px solid #ddd;  
+        }  
+    }  
+    <button onclick="testeExpirarPlano()"
+
+style="
 position:fixed;
 bottom:10px;
 left:10px;
@@ -188,40 +379,520 @@ border:none;
 border-radius:8px;">
 TESTAR PRO
 </button>
+</style>
 
-<header>
-<div class="header-content">
-<h1>⚡ PWA Elétrico Profissional</h1>
-</div>
-</header>
+</head>  
+<body>  
+    <header>  
+        <div class="header-content">  
+            <h1>⚡ PWA Elétrico Profissional</h1>  
+        </div>  
+    </header>  <div class="install-prompt" id="installPrompt">  
+    📱 Instale este app para acesso rápido offline!  
+    <button class="btn btn-secondary" id="installBtn" style="margin-left: 1rem;">Instalar</button>  
+</div>  
 
-<div class="install-prompt" id="installPrompt">
-📱 Instale este app para acesso rápido offline!
-<button class="btn" id="installBtn">Instalar</button>
-</div>
+<nav>  
+    <div class="nav-buttons">  
+        <button class="nav-btn active" data-section="ohm">Lei de Ohm</button>  
+        <button class="nav-btn" data-section="trifasica">Potência Trifásica</button>  
+        <button class="nav-btn" data-section="queda">Queda de Tensão</button>  
+        <button class="nav-btn" data-section="disjuntor">Disjuntores</button>  
+        <button class="nav-btn" data-section="quadro">Montagem de Quadro</button>  
+        <button class="nav-btn" data-section="bitolas">Tabelas</button>  
+        <button class="nav-btn" data-section="conversao">Conversões</button>  
+        <button class="nav-btn" data-section="consumo"> consumo</button>  
+        <button class="nav-btn" data-section="orcamento"> Orçamento</button>  
+     
+    </div>  
+</nav>  
 
-<nav>
-<div class="nav-buttons">
-<button class="nav-btn active" data-section="ohm">Lei de Ohm</button>
-<button class="nav-btn" data-section="trifasica">Potência Trifásica</button>
-<button class="nav-btn" data-section="queda">Queda de Tensão</button>
-<button class="nav-btn" data-section="disjuntor">Disjuntores</button>
-<button class="nav-btn" data-section="quadro">Montagem de Quadro</button>
-<button class="nav-btn" data-section="bitolas">Tabelas</button>
-<button class="nav-btn" data-section="conversao">Conversões</button>
-<button class="nav-btn" data-section="consumo">Consumo</button>
-<button class="nav-btn" data-section="orcamento">Orçamento</button>
-</div>
-</nav>
+<main>  
+    <!-- Seção Lei de Ohm -->  
+    <section id="ohm" class="section active">  
+        <div class="card">  
+            <h2>⚡ Lei de Ohm e Potência</h2>  
+              
+            <div class="formula-box">  
+                <strong>Fórmulas:</strong><br>  
+                V = I × R<br>  
+                P = V × I<br>  
+                P = I² × R<br>  
+                P = V² / R  
+            </div>  
 
-<main>
+            <div class="form-group">  
+                <label>Tensão (V) - Volts:</label>  
+                <input type="number" id="ohm_v" step="0.01">  
+            </div>  
 
-<!-- ⚠️ TODAS AS SUAS SECTIONS CONTINUAM IGUAIS -->
-<!-- (não alterei conteúdo interno para não quebrar seus scripts) -->
+            <div class="form-group">  
+                <label>Corrente (I) - Amperes:</label>  
+                <input type="number" id="ohm_i" step="0.01">  
+            </div>  
 
-</main>
+            <div class="form-group">  
+                <label>Resistência (R) - Ohms:</label>  
+                <input type="number" id="ohm_r" step="0.01">  
+            </div>  
 
-<script src="app_updated.js"></script>
+            <div class="form-group">  
+                <label>Potência (P) - Watts:</label>  
+                <input type="number" id="ohm_p" step="0.01">  
+            </div>  
 
-</body>
-</html>
+            <button class="btn" onclick="calcularOhm()">Calcular</button>  
+            <button class="btn export-btn no-print" onclick="exportarPDF('ohm')">📄 Exportar PDF</button>  
+
+            <div id="ohm_result"></div>  
+        </div>  
+    </section>  
+
+    <!-- Seção Potência Trifásica -->  
+    <section id="trifasica" class="section">  
+        <div class="card">  
+            <h2>⚡ Cálculo de Potência Trifásica</h2>  
+
+            <div class="info-box">  
+                <strong>ℹ️ Informação:</strong> Sistemas trifásicos podem ser conectados em estrela (Y) ou triângulo (Δ)  
+            </div>  
+
+            <div class="formula-box">  
+                <strong>Fórmulas:</strong><br>  
+                <strong>Potência Ativa:</strong> P = √3 × V × I × cos(φ)<br>  
+                <strong>Potência Reativa:</strong> Q = √3 × V × I × sen(φ)<br>  
+                <strong>Potência Aparente:</strong> S = √3 × V × I<br>  
+                <strong>Fator de Potência:</strong> FP = cos(φ) = P / S  
+            </div>  
+
+            <div class="form-group">  
+                <label>Tipo de Conexão:</label>  
+                <select id="tri_tipo">  
+                    <option value="estrela">Estrela (Y)</option>  
+                    <option value="triangulo">Triângulo (Δ)</option>  
+                </select>  
+            </div>  
+
+            <div class="form-group">  
+                <label>Tensão de Linha (VL) - Volts:</label>  
+                <input type="number" id="tri_v" step="0.01" value="380">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Corrente de Linha (IL) - Amperes:</label>  
+                <input type="number" id="tri_i" step="0.01">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Fator de Potência (cos φ):</label>  
+                <input type="number" id="tri_fp" step="0.01" min="0" max="1" value="0.92">  
+            </div>  
+
+            <hr style="margin: 2rem 0;">  
+            <p><strong>OU</strong> - Calcular corrente a partir da potência:</p>  
+
+            <div class="form-group">  
+                <label>Potência Ativa (P) - Watts:</label>  
+                <input type="number" id="tri_p" step="0.01">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Tensão de Linha (VL) - Volts:</label>  
+                <input type="number" id="tri_v2" step="0.01" value="380">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Fator de Potência (cos φ):</label>  
+                <input type="number" id="tri_fp2" step="0.01" min="0" max="1" value="0.92">  
+            </div>  
+
+            <button class="btn" onclick="calcularTrifasica()">Calcular</button>  
+            <button class="btn export-btn no-print" onclick="exportarPDF('trifasica')">📄 Exportar PDF</button>  
+
+            <div id="tri_result"></div>  
+        </div>  
+    </section>  
+
+    <!-- Seção Queda de Tensão -->  
+    <section id="queda" class="section">  
+        <div class="card">  
+            <h2>📉 Cálculo de Queda de Tensão</h2>  
+
+            <div class="warning-box">  
+                <strong>⚠️ Limite NBR 5410:</strong> A queda de tensão máxima permitida é de 4% para instalações alimentadas diretamente pela rede e 7% para instalações totais.  
+            </div>  
+
+            <div class="formula-box">  
+                <strong>Fórmula Monofásica:</strong> ΔV = (2 × ρ × L × I) / S<br>  
+                <strong>Fórmula Trifásica:</strong> ΔV = (√3 × ρ × L × I) / S<br>  
+                ρ (cobre) = 0.0178 Ω·mm²/m  
+            </div>  
+
+            <div class="form-group">  
+                <label>Tipo de Circuito:</label>  
+                <select id="queda_tipo">  
+                    <option value="monofasico">Monofásico</option>  
+                    <option value="trifasico">Trifásico</option>  
+                </select>  
+            </div>  
+
+            <div class="form-group">  
+                <label>Tensão Nominal (V):</label>  
+                <input type="number" id="queda_v" step="0.01" value="220">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Corrente (A):</label>  
+                <input type="number" id="queda_i" step="0.01">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Comprimento do Circuito (m):</label>  
+                <input type="number" id="queda_l" step="0.01">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Seção do Condutor (mm²):</label>  
+                <select id="queda_s">  
+                    <option value="1.5">1,5</option>  
+                    <option value="2.5">2,5</option>  
+                    <option value="4">4</option>  
+                    <option value="6">6</option>  
+                    <option value="10">10</option>  
+                    <option value="16">16</option>  
+                    <option value="25">25</option>  
+                    <option value="35">35</option>  
+                    <option value="50">50</option>  
+                    <option value="70">70</option>  
+                    <option value="95">95</option>  
+                    <option value="120">120</option>  
+                    <option value="150">150</option>  
+                    <option value="185">185</option>  
+                    <option value="240">240</option>  
+                </select>  
+            </div>  
+
+            <button class="btn" onclick="calcularQueda()">Calcular</button>  
+            <button class="btn export-btn no-print" onclick="exportarPDF('queda')">📄 Exportar PDF</button>  
+
+            <div id="queda_result"></div>  
+        </div>  
+    </section>  
+
+    <!-- Seção Disjuntores -->  
+    <section id="disjuntor" class="section">  
+        <div class="card">  
+            <h2>💡 Dimensionamento de Disjuntores</h2>  
+
+            <div class="info-box">  
+                <strong>ℹ️ Critério:</strong> O disjuntor deve ser dimensionado para proteger a fiação e os equipamentos. Corrente nominal do disjuntor ≥ corrente do circuito.  
+            </div>  
+
+            <div class="form-group">  
+                <label>Potência Total do Circuito (W):</label>  
+                <input type="number" id="disj_p" step="0.01">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Tensão (V):</label>  
+                <select id="disj_v">  
+                    <option value="127">127V</option>  
+                    <option value="220" selected>220V</option>  
+                    <option value="380">380V (Trifásico)</option>  
+                </select>  
+            </div>  
+
+            <div class="form-group">  
+                <label>Fator de Potência (para motores):</label>  
+                <input type="number" id="disj_fp" step="0.01" min="0" max="1" value="1">  
+            </div>  
+
+            <button class="btn" onclick="calcularDisjuntor()">Calcular</button>  
+            <button class="btn export-btn no-print" onclick="exportarPDF('disjuntor')">📄 Exportar PDF</button>  
+
+            <div id="disj_result"></div>  
+        </div>  
+    </section>  
+
+    <!-- NOVA SEÇÃO: Montagem de Quadro -->  
+    <section id="quadro" class="section">  
+        <div class="card">  
+            <h2>🔧 Montagem de Quadro Elétrico</h2>  
+
+            <div class="info-box">  
+                <strong>ℹ️ Informação:</strong> Monte seu quadro de distribuição adicionando circuitos. O sistema calculará automaticamente a corrente total, disjuntor geral e dimensionamento dos cabos.  
+            </div>  
+
+            <h3>Adicionar Circuito</h3>  
+              
+            <div class="form-group">  
+                <label>Nome do Circuito:</label>  
+                <input type="text" id="circ_nome" placeholder="Ex: Iluminação Sala">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Tipo de Circuito:</label>  
+                <select id="circ_tipo">  
+                    <option value="iluminacao">Iluminação</option>  
+                    <option value="tomada">Tomadas de Uso Geral</option>  
+                    <option value="tomada_esp">Tomadas Específicas</option>  
+                    <option value="chuveiro">Chuveiro</option>  
+                    <option value="ar">Ar Condicionado</option>  
+                    <option value="motor">Motor</option>  
+                    <option value="outros">Outros</option>  
+                </select>  
+            </div>  
+
+            <div class="form-group">  
+                <label>Potência (W):</label>  
+                <input type="number" id="circ_potencia" step="0.01">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Tensão (V):</label>  
+                <select id="circ_tensao">  
+                    <option value="127">127V</option>  
+                    <option value="220" selected>220V</option>  
+                    <option value="380">380V (Trifásico)</option>  
+                </select>  
+            </div>  
+
+            <div class="form-group">  
+                <label>Comprimento do Circuito (m):</label>  
+                <input type="number" id="circ_comprimento" step="0.01" value="15">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Fator de Potência:</label>  
+                <input type="number" id="circ_fp" step="0.01" min="0" max="1" value="1">  
+            </div>  
+
+            <button class="btn" onclick="adicionarCircuito()">➕ Adicionar Circuito</button>  
+
+            <h3 style="margin-top: 2rem;">Circuitos Adicionados</h3>  
+            <div id="circuitos_lista"></div>  
+
+            <div class="circuit-controls">  
+                <button class="btn btn-success" onclick="calcularQuadro()">📊 Calcular Quadro</button>  
+                <button class="btn btn-secondary" onclick="limparCircuitos()">🗑️ Limpar Tudo</button>  
+                <button class="btn export-btn" onclick="exportarPDF('quadro')">📄 Exportar PDF</button>  
+            </div>  
+
+            <div id="quadro_result"></div>  
+        </div>  
+    </section>  
+
+    <!-- Seção Tabelas -->  
+    <section id="bitolas" class="section">  
+        <div class="card">  
+            <h2>📊 Tabela de Bitolas e Capacidades</h2>  
+
+            <h3>Capacidade de Corrente de Condutores de Cobre (Isolação PVC)</h3>  
+            <p><em>Método de instalação: B1 (condutores isolados em eletrodutos embutidos)</em></p>  
+
+            <button class="btn export-btn no-print" onclick="exportarPDF('bitolas')" style="margin-bottom: 1rem;">📄 Exportar PDF</button>  
+
+            <table>  
+                <thead>  
+                    <tr>  
+                        <th>Seção (mm²)</th>  
+                        <th>Corrente Máxima (A)</th>  
+                        <th>Aplicação Típica</th>  
+                    </tr>  
+                </thead>  
+                <tbody>  
+                    <tr><td>1,5</td><td>15,5</td><td>Iluminação, tomadas de uso geral (até 1500W)</td></tr>  
+                    <tr><td>2,5</td><td>21</td><td>Tomadas de uso geral (até 2200W)</td></tr>  
+                    <tr><td>4</td><td>28</td><td>Chuveiros até 5500W, circuitos de força</td></tr>  
+                    <tr><td>6</td><td>36</td><td>Chuveiros até 7700W, fornos elétricos</td></tr>  
+                    <tr><td>10</td><td>50</td><td>Alimentadores, ar condicionado até 10kW</td></tr>  
+                    <tr><td>16</td><td>68</td><td>Alimentadores, circuitos de distribuição</td></tr>  
+                    <tr><td>25</td><td>89</td><td>Alimentadores gerais, entrada de energia</td></tr>  
+                    <tr><td>35</td><td>111</td><td>Alimentadores principais</td></tr>  
+                    <tr><td>50</td><td>134</td><td>Alimentadores principais, entrada de energia</td></tr>  
+                    <tr><td>70</td><td>171</td><td>Grandes instalações</td></tr>  
+                    <tr><td>95</td><td>207</td><td>Grandes instalações</td></tr>  
+                    <tr><td>120</td><td>239</td><td>Instalações industriais</td></tr>  
+                    <tr><td>150</td><td>272</td><td>Instalações industriais</td></tr>  
+                    <tr><td>185</td><td>310</td><td>Grandes instalações industriais</td></tr>  
+                    <tr><td>240</td><td>364</td><td>Grandes instalações industriais</td></tr>  
+                </tbody>  
+            </table>  
+
+            <h3 style="margin-top: 2rem;">🔌 Disjuntores Termomagnéticos Padrão</h3>  
+            <table>  
+                <thead>  
+                    <tr>  
+                        <th>Corrente Nominal (A)</th>  
+                        <th>Aplicação Típica</th>  
+                        <th>Potência Aproximada (220V)</th>  
+                    </tr>  
+                </thead>  
+                <tbody>  
+                    <tr><td>10</td><td>Iluminação</td><td>Até 2.200W</td></tr>  
+                    <tr><td>16</td><td>Tomadas de uso geral</td><td>Até 3.500W</td></tr>  
+                    <tr><td>20</td><td>Tomadas de cozinha</td><td>Até 4.400W</td></tr>  
+                    <tr><td>25</td><td>Chuveiro 5500W</td><td>Até 5.500W</td></tr>  
+                    <tr><td>32</td><td>Chuveiro 7000W</td><td>Até 7.000W</td></tr>  
+                    <tr><td>40</td><td>Ar condicionado, fornos</td><td>Até 8.800W</td></tr>  
+                    <tr><td>50</td><td>Alimentadores</td><td>Até 11.000W</td></tr>  
+                    <tr><td>63</td><td>Alimentadores</td><td>Até 13.800W</td></tr>  
+                    <tr><td>70</td><td>Entrada de energia</td><td>Até 15.400W</td></tr>  
+                    <tr><td>100</td><td>Entrada de energia</td><td>Até 22.000W</td></tr>  
+                </tbody>  
+            </table>  
+
+            <h3 style="margin-top: 2rem;">⚡ Tensões Padrão no Brasil</h3>  
+            <table>  
+                <thead>  
+                    <tr>  
+                        <th>Região/Concessionária</th>  
+                        <th>Tensão Monofásica</th>  
+                        <th>Tensão Trifásica</th>  
+                    </tr>  
+                </thead>  
+                <tbody>  
+                    <tr><td>São Paulo (Capital)</td><td>127V</td><td>220V</td></tr>  
+                    <tr><td>Rio de Janeiro</td><td>127V</td><td>220V</td></tr>  
+                    <tr><td>Brasília</td><td>220V</td><td>380V</td></tr>  
+                    <tr><td>Sul do Brasil</td><td>220V</td><td>380V</td></tr>  
+                    <tr><td>Nordeste (Geral)</td><td>220V</td><td>380V</td></tr>  
+                </tbody>  
+            </table>  
+        </div>  
+    </section>  
+
+    <!-- Seção Conversões -->  
+    <section id="conversao" class="section">  
+        <div class="card">  
+            <h2>🔄 Conversão de Potência</h2>  
+
+            <div class="form-group">  
+                <label>Watts (W):</label>  
+                <input type="number" id="conv_w" step="0.01" oninput="converterPotencia('w')">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Kilowatts (kW):</label>  
+                <input type="number" id="conv_kw" step="0.01" oninput="converterPotencia('kw')">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Cavalos-vapor (CV):</label>  
+                <input type="number" id="conv_cv" step="0.01" oninput="converterPotencia('cv')">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Horse Power (HP):</label>  
+                <input type="number" id="conv_hp" step="0.01" oninput="converterPotencia('hp')">  
+            </div>  
+
+            <button class="btn export-btn no-print" onclick="exportarPDF('conversao')">📄 Exportar PDF</button>  
+        </div>  
+
+        <div class="card">  
+            <h2>🔄 Conversão de Energia</h2>  
+
+            <div class="form-group">  
+                <label>Kilowatt-hora (kWh):</label>  
+                <input type="number" id="ener_kwh" step="0.01" oninput="converterEnergia('kwh')">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Watt-hora (Wh):</label>  
+                <input type="number" id="ener_wh" step="0.01" oninput="converterEnergia('wh')">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Joules (J):</label>  
+                <input type="number" id="ener_j" step="0.01" oninput="converterEnergia('j')">  
+            </div>  
+
+            <div class="info-box">  
+                <strong>Exemplo:</strong> Um chuveiro de 5500W ligado por 15 minutos consome:<br>  
+                5,5 kW × 0,25 h = 1,375 kWh  
+            </div>  
+        </div>  
+    </section>  
+
+    <!-- Seção Consumo -->  
+    <section id="consumo" class="section">  
+        <div class="card">  
+            <h2>💰 Calculadora de Consumo e Custo</h2>  
+
+            <div class="form-group">  
+                <label>Potência do Equipamento (W):</label>  
+                <input type="number" id="cons_pot" step="0.01">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Horas de Uso por Dia:</label>  
+                <input type="number" id="cons_horas" step="0.01">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Dias por Mês:</label>  
+                <input type="number" id="cons_dias" step="1" value="30">  
+            </div>  
+
+            <div class="form-group">  
+                <label>Tarifa (R$/kWh):</label>  
+                <input type="number" id="cons_tarifa" step="0.01" value="0.85">  
+            </div>  
+
+            <button class="btn" onclick="calcularConsumo()">Calcular</button>  
+            <button class="btn export-btn no-print" onclick="exportarPDF('consumo')">📄 Exportar PDF</button>  
+
+            <div id="cons_result"></div>  
+        </div>  
+    </section>  
+      
+<!-- sessão orcamento-->
+
+<section id="orcamento" class="section">  
+  <div class="card">  
+    <h2>📄 Orçamento Inteligente</h2>  <div class="form-group">  
+  <label>Nome do Cliente:</label>  
+  <input type="text" id="cliente">  
+</div>  
+
+<div class="form-group">  
+  <label>Serviço:</label>  
+  <input type="text" id="servico">  
+</div>  
+
+<div class="form-group">  
+  <label>Potência (W):</label>  
+  <input type="number" id="potencia">  
+</div>  
+
+<div class="form-group">  
+  <label>Tensão:</label>  
+  <select id="tensao">  
+    <option value="127">127V</option>  
+    <option value="220">220V</option>  
+  </select>  
+</div>  
+
+<div class="form-group">  
+  <label>Distância (metros):</label>  
+  <input type="number" id="distancia">  
+</div>  
+
+<button class="btn" onclick="gerarOrcamento()">  
+  Calcular Orçamento  
+</button>  
+
+<button class="btn export-btn no-print" onclick="exportarPDF('orcamento')">  
+  📄 Exportar PDF  
+</button>  
+
+<div id="resultadoOrcamento"></div>
+
+  </div>  
+</section>    
+    </main>  <script src="app_updated.js"></script>
+
+</body>  
+</html>  
+Está certo?
