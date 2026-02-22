@@ -676,4 +676,17 @@ function gerarPDFOrcamento() {
 // Inicializar app
 window.addEventListener('load', () => {
     initTrial();
+    
+    function moverIndicador(tabElement) {
+
+    const indicator = document.querySelector('.tab-indicator');
+    const tabsContainer = document.querySelector('.tabs');
+
+    const rect = tabElement.getBoundingClientRect();
+    const parentRect = tabsContainer.getBoundingClientRect();
+
+    indicator.style.width = rect.width + "px";
+    indicator.style.left = (rect.left - parentRect.left) + "px";
+}
+    
 });
