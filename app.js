@@ -676,4 +676,6 @@ function gerarPDFOrcamento() {
 // Inicializar app
 window.addEventListener('load', () => {
     initTrial();
+
+    document.addEventListener("DOMContentLoaded", initTrial);
 });
