@@ -1,32 +1,91 @@
 {
-  "name": "PWA Elétrico Profissional",
-  "short_name": "PWA Elétrico",
-  "description": "Aplicativo profissional para cálculos elétricos, tabelas de referência e dimensionamento",
-  "start_url": ".",
+  "name": "Calculadora Elétrica PRO",
+  "short_name": "CalcEletrica",
+  "description": "Calculadora profissional para cálculos elétricos - Lei de Ohm, Potência Trifásica, Queda de Tensão e mais",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#1976d2",
-  "theme_color": "#1976d2",
+  "background_color": "#1a1a2e",
+  "theme_color": "#0f3460",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "icon-72x72.png",
+      "sizes": "72x72",
       "type": "image/png",
-      "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "icon-96x96.png",
+      "sizes": "96x96",
       "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512x512.png",
       "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "categories": ["utilities", "productivity", "education"],
   "screenshots": [
     {
       "src": "screenshot1.png",
+      "sizes": "540x720",
       "type": "image/png",
-      "sizes": "540x720"
+      "form_factor": "narrow"
+    },
+    {
+      "src": "screenshot2.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "categories": ["utilities", "productivity", "education"],
+  "shortcuts": [
+    {
+      "name": "Lei de Ohm",
+      "short_name": "Ohm",
+      "description": "Calcular Lei de Ohm",
+      "url": "/#ohm",
+      "icons": [{ "src": "icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Potência Trifásica",
+      "short_name": "Trifásica",
+      "description": "Calcular Potência Trifásica",
+      "url": "/#trifasica",
+      "icons": [{ "src": "icon-96x96.png", "sizes": "96x96" }]
     }
   ]
 }
