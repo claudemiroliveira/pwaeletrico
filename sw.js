@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pwa-eletrico-v7';
+const CACHE_NAME = 'pwa-eletrico-v8';
 const urlsToCache = [
   './',
   './index.html',
