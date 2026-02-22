@@ -923,3 +923,17 @@ function bloquearFuncoesPro() {
   };
 
 }
+// ===== BOTÃO DE TESTE (CELULAR) =====
+function testeExpirarPlano(){
+
+  // simula instalação há 8 dias
+  const oitoDias = 8 * 24 * 60 * 60 * 1000;
+
+  localStorage.setItem(
+    "dataInstalacao",
+    Date.now() - oitoDias
+  );
+
+  alert("Plano expirado para teste!");
+  location.reload();
+}
