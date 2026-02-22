@@ -2,7 +2,7 @@ const CACHE_NAME = 'pwa-eletrico-v6';
 const urlsToCache = [
   './',
   './index.html',
-  './app.js',
+  //'./app.js',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'
@@ -20,17 +20,18 @@ self.addEventListener('install', event => {
 });
 
 // Ativação do Service Worker
-self.addEventListener('activate', event => {
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Removendo cache antigo:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
+    caches.open(CACHE_NAME).then(async cache => {
+      console.log('Cache aberto');
+
+      for (const url of urlsToCache) {
+        try {
+          await cache.add(url);
+        } catch (err) {
+          console.warn('Falha ao cachear:', url);
+        }
+      }
     })
   );
 });
