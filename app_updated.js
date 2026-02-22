@@ -1,3 +1,54 @@
+/* =====================================================
+   SISTEMA 7 DIAS GRÁTIS + PRO
+===================================================== */
+
+// registra primeiro uso do app
+if (!localStorage.getItem("dataInstalacao")) {
+    localStorage.setItem("dataInstalacao", Date.now());
+}
+
+const DIAS_GRATIS = 7;
+
+// verifica se ainda está no período grátis
+function periodoGratisAtivo() {
+
+    const inicio = localStorage.getItem("dataInstalacao");
+    if (!inicio) return false;
+
+    const diasPassados =
+        (Date.now() - inicio) / (1000 * 60 * 60 * 24);
+
+    return diasPassados <= DIAS_GRATIS;
+}
+
+// usuário pode usar funções PRO?
+function usuarioPRO() {
+
+    if (localStorage.getItem("licencaPRO") === "true") {
+        return true;
+    }
+
+    if (periodoGratisAtivo()) {
+        return true;
+    }
+
+    return false;
+}
+
+// alerta padrão
+function avisoPRO() {
+    alert(
+        "🔒 Seu teste grátis terminou.\n\n" +
+        "Ative a versão PRO para continuar usando."
+    );
+}
+
+// ativação manual (simulação pagamento)
+function ativarPRO() {
+    localStorage.setItem("licencaPRO", "true");
+    alert("✅ Versão PRO ativada!");
+}
+
 // PWA Installation
 let deferredPrompt;
 const installPrompt = document.getElementById('installPrompt');
@@ -469,6 +520,15 @@ function mostrarResultado(elementId, resultados) {
 
 // NOVA FUNCIONALIDADE: Exportar PDF
 async function exportarPDF(secao) {
+
+    /* ===============================
+       🔒 CONTROLE PRO (ADICIONADO)
+    =============================== */
+    if (!usuarioPRO()) {
+        avisoPRO();
+        return;
+    }
+
     // Get jsPDF from global scope
     const { jsPDF } = window.jspdf;
     
