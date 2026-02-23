@@ -1,31 +1,26 @@
 {
   "name": "Elétrico Pro",
   "short_name": "Elétrico Pro",
-  "description": "App profissional para cálculos elétricos, tabelas técnicas e orçamentos",
-  "start_url": "/",
+  "description": "App profissional para cálculos elétricos",
+  "start_url": "/pwaeletrico/",
+  "scope": "/pwaeletrico/",
   "display": "standalone",
   "background_color": "#1976d2",
   "theme_color": "#1976d2",
   "orientation": "portrait-primary",
   "icons": [
     {
-   
-    
-      "src": "icon-192.png",
+      "src": "/pwaeletrico/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
-   
-    
     {
-      "src": "icon-512.png",
+      "src": "/pwaeletrico/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "categories": ["productivity", "utilities", "business"],
-  "lang": "pt-BR",
-  "dir": "ltr"
+  ]
 }
+   
